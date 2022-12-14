@@ -7,8 +7,9 @@
 #include <arpa/inet.h> 
 #include <netinet/in.h> 
     
-#define PORT     8909
-#define MAXLINE 1024 
+#define MYIPADDR    "127.0.0.1"
+#define MYPORT      8909
+#define MAXLINE     1024 
 
 #pragma pack(push, 1) //to read packet correctly
 struct ego_vehicle_status{
@@ -23,7 +24,7 @@ struct ego_vehicle_status{
     char ctrl_mode;
     char gear;
     float signed_velocity;
-    int map_data_id;
+    unsigned int map_data_id;
     float accel;
     float brake;
     float sizeX;
@@ -32,6 +33,7 @@ struct ego_vehicle_status{
     float overhang;
     float wheelbase;
     float rear_overhang;
+
 
     //data
     float posX;
@@ -52,13 +54,12 @@ struct ego_vehicle_status{
     char zeroD;
     char zeroA;
 };
-#pragma pack(pop) //to read packet correctly
+#pragma pack(pop)
 
 // Driver code 
 int main() { 
     int sockfd; 
-    char buffer[MAXLINE]; 
-    char *hello = "Hello from server"; 
+    char buffer[MAXLINE];
     struct sockaddr_in servaddr, cliaddr; 
         
     // Creating socket file descriptor 
@@ -72,8 +73,8 @@ int main() {
         
     // Filling server information 
     servaddr.sin_family    = AF_INET; // IPv4 
-    servaddr.sin_addr.s_addr = INADDR_ANY; 
-    servaddr.sin_port = htons(PORT); 
+    servaddr.sin_addr.s_addr = inet_addr(MYIPADDR); 
+    servaddr.sin_port = htons(MYPORT); 
         
     // Bind the socket with the server address 
     if ( bind(sockfd, (const struct sockaddr *)&servaddr,  
@@ -87,6 +88,8 @@ int main() {
     
     len = sizeof(cliaddr);  //len is value/result 
     
+    struct ego_vehicle_status* evs;
+
     for(;;){
         n = recvfrom(sockfd, (char *)buffer, MAXLINE,  
                     MSG_WAITALL, ( struct sockaddr *) &cliaddr, 
@@ -97,9 +100,10 @@ int main() {
         //     printf("%.2x",buffer[i]);
         // }
         // printf("\n");
-        struct ego_vehicle_status* evs;
+        
         evs = (struct ego_vehicle_status*) buffer;
 
+        printf("[Receiving from Morai..]\n");
         // printf("sharp                   : %c\n", evs->sharp);
         // printf("MaraiInfo               : %s\n", evs->MaraiInfo);
         // printf("doller                  : %c\n", evs->dollor);
@@ -128,10 +132,10 @@ int main() {
             break;
         }
         
-        printf("speed (속력)            : %f\n", evs->signed_velocity);
-        printf("Accel (가속페달)        : %f\n", evs->accel);
-        printf("Brake (브레이크페달)    : %f\n", evs->brake);
-        printf("steer (조향입력)        : %f\n\n", evs->steer);
+        printf("speed (속력)            : %.2fm/s\n", evs->signed_velocity);
+        printf("Accel (가속페달)        : %.2f\n", evs->accel);
+        printf("Brake (브레이크페달)    : %.2f\n", evs->brake);
+        printf("steer (조향입력)        : %.2f\n\n", evs->steer);
         
         printf("Position XYZ            : %5.2fm, \t%5.2fm, \t%5.2fm \n", evs->posX, evs->posY, evs->posZ);
         printf("Roll Pitch Yaw          : %5.2fdeg, \t%5.2fdeg, \t%5.2fdeg \n", evs->roll, evs->pitch, evs->yaw);
@@ -142,11 +146,6 @@ int main() {
         printf("========================================================================\n");
 
     }
-
-    // sendto(sockfd, (const char *)hello, strlen(hello),  
-    //     MSG_CONFIRM, (const struct sockaddr *) &cliaddr, 
-    //         len); 
-    // printf("Hello message sent.\n");  
         
     return 0; 
 }

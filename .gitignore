@@ -2,3 +2,4 @@
 *.out
 morai_vils/ego_vehicle_cmd
 morai_vils/ego_vehicle_status_recv
+morai_vils/ctrl_recv

@@ -9,51 +9,21 @@
 
     
 #define MYIPADDR    "165.246.170.80"
-#define MYEGOPORT   8909
+#define MYEGOPORT   16456
 #define MAXLINE     256 
 
 #pragma pack(push, 1) //to read packet correctly
-struct ego_vehicle_status{
-
-    char sharp;
-    char MaraiInfo[9];
-    char dollor;
-    unsigned int data_length;
-    char aux_data[12];
-
-    //data
-    char ctrl_mode;
-    char gear;
-    float signed_velocity;
-    unsigned int map_data_id;
-    float accel;
-    float brake;
-    float sizeX;
-    float sizeY;
-    float sizeZ;
-    float overhang;
-    float wheelbase;
-    float rear_overhang;
-
-
-    //data
-    float posX;
-    float posY;
-    float posZ;
-    float roll;
-    float pitch;
-    float yaw;
-    float velocityX;
-    float velocityY;
-    float velocityZ;
-    float accelX;
-    float accelY;
-    float accelZ;
-    float steer;
-    char linkID[38];
-
-    char zeroD;
-    char zeroA;
+struct ctrl_msg{
+    double auto_manual ;
+    double brake;
+    double estop;
+    double gear;
+    double speed;
+    double steer;
+    double tmp1;
+    double tmp2;
+    double tmp3;
+    double tmp4;
 };
 #pragma pack(pop)
 
@@ -89,7 +59,7 @@ int main() {
     
     len = sizeof(cliaddr);  //len is value/result 
     
-    struct ego_vehicle_status* evs;
+    struct ctrl_msg* evs;
 
     for(;;){
         n = recvfrom(sockfd, (char *)buffer, MAXLINE,  
@@ -102,17 +72,14 @@ int main() {
         // }
         // printf("\n");
         
-        evs = (struct ego_vehicle_status*) buffer;
+        evs = (struct ctrl_msg*) buffer;
 
-        printf("[Receiving from Morai..]\n");
-        // printf("sharp                   : %c\n", evs->sharp);
-        // printf("MaraiInfo               : %s\n", evs->MaraiInfo);
-        // printf("doller                  : %c\n", evs->dollor);
-        // printf("data_length             : %d\n", evs->data_length);
-
-        printf("ctrl_mode (제어모드)    : %s\n", (evs->ctrl_mode == 2) ? "auto (오토)" : "keyboard (키보드제어)");
+        printf("[Receiving from ctrl..]\n");
+        printf("auto manual             : %.2f\n", evs->auto_manual);
+        printf("Brake (브레이크)        : %.2f\n", evs->brake);
+        printf("EStop                   : %.2f\n", evs->estop);
         printf("gear (기어)             : ");
-        switch (evs->gear) {
+        switch ((int)evs->gear) {
         case(0):
             printf("M \n");
             break;
@@ -132,18 +99,9 @@ int main() {
             printf("L (Low, 저속)\n");
             break;
         }
-        
-        printf("speed (속력)            : %.2fm/s\n", evs->signed_velocity);
-        printf("Accel (가속페달)        : %.2f\n", evs->accel);
-        printf("Brake (브레이크페달)    : %.2f\n", evs->brake);
-        printf("steer (조향입력)        : %.2f\n\n", evs->steer);
-        
-        printf("Position XYZ            : %5.2fm, \t%5.2fm, \t%5.2fm \n", evs->posX, evs->posY, evs->posZ);
-        printf("Roll Pitch Yaw          : %5.2fdeg, \t%5.2fdeg, \t%5.2fdeg \n", evs->roll, evs->pitch, evs->yaw);
-        printf("Velocity XYZ            : %5.2fkm/h, \t%5.2fkm/h, \t%5.2fkm/h \n", evs->velocityX, evs->velocityY, evs->velocityZ);
-        printf("Acceleration XYZ        : %5.2fm/s^2, \t%5.2fm/s^2, \t%5.2fm/s^2 \n", evs->accelX, evs->accelY, evs->accelZ);
-        printf("map_data_id             : %d\n", evs->map_data_id);
-        printf("link ID                 : %s\n", evs->linkID);
+        printf("speed (속력)            : %.2fm/s\n", evs->speed);
+        printf("steer (조향입력)        : %.2f\n", evs->steer);
+        printf("time                    : %.2f\n", evs->tmp4);
         printf("========================================================================\n");
 
     }

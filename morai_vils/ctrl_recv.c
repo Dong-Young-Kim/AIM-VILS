@@ -64,14 +64,7 @@ int main() {
     for(;;){
         n = recvfrom(sockfd, (char *)buffer, MAXLINE,  
                     MSG_WAITALL, ( struct sockaddr *) &cliaddr, 
-                    &len); 
-
-        // printf("length: %d\n", n);
-        // for(int i = 0; i < n; i++){
-        //     printf("%.2x",buffer[i]);
-        // }
-        // printf("\n");
-        
+                    &len);         
         evs = (struct ctrl_msg*) buffer;
 
         printf("[Receiving from ctrl..]\n");

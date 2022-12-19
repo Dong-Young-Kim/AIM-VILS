@@ -3,3 +3,5 @@
 morai_vils/ego_vehicle_cmd
 morai_vils/ego_vehicle_status_recv
 morai_vils/ctrl_recv
+*.json
+morai_vils/morai_comm

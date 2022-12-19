@@ -37,7 +37,7 @@ struct ego_vehicle_cmd{
 // Driver code 
 int main() { 
     int sockfd; 
-    struct sockaddr_in     servaddr; 
+    struct sockaddr_in servaddr; 
     
     // Creating socket file descriptor 
     if ( (sockfd = socket(AF_INET, SOCK_DGRAM, 0)) < 0 ) { 
@@ -76,7 +76,7 @@ int main() {
 
     for(;;){
         sendto(sockfd, &evs, sizeof(struct ego_vehicle_cmd), 
-                MSG_CONFIRM, (const struct sockaddr *) &servaddr,  
+                NULL, (const struct sockaddr *) &servaddr,  
                 sizeof(servaddr));
 
         printf("[Sending to Morai..]\n");

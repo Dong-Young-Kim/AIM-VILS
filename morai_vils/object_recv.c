@@ -109,7 +109,20 @@ int main() {
         // // printf("sharp                   : %c\n", evs->sharp);
         // // printf("MaraiInfo               : %s\n", evs->MaraiInfo);
         // // printf("doller                  : %c\n", evs->dollor);
-        // // printf("data_length             : %d\n", evs->data_length);
+        printf("data_length             : %d\n", oi->data_length);
+
+        printf("  object ID        Type          posXYZ        heading       sizeXYZ        velXYZ\n");
+        printf("----------------------------------------------------------------------------------\n");
+        for(int i = 0; i < oi->data_length; i++){
+            printf("  %6d", oi->data[i].objId);
+            printf("  %6d", oi->data[i].objType);
+            printf("  (%4.2f, %4.2f, %4.2f)", oi->data[i].posX, oi->data[i].posY, oi->data[i].posZ);
+            printf("   %3.2f", oi->data[i].heading);
+            printf("  (%3.2f, %3.2f, %3.2f)", oi->data[i].velocityX, oi->data[i].velocityY, oi->data[i].velocityZ);
+            printf("  (%3.2f, %3.2f, %3.2f)", oi->data[i].sizeX, oi->data[i].sizeY, oi->data[i].sizeZ);
+        }
+        printf("==================================================================================\n");
+
 
         // printf("ctrl_mode (제어모드)    : %s\n", (evs->ctrl_mode == 2) ? "auto (오토)" : "keyboard (키보드제어)");
         // printf("gear (기어)             : ");
@@ -145,7 +158,7 @@ int main() {
         // printf("Acceleration XYZ        : %5.2fm/s^2, \t%5.2fm/s^2, \t%5.2fm/s^2 \n", evs->accelX, evs->accelY, evs->accelZ);
         // printf("map_data_id             : %d\n", evs->map_data_id);
         // printf("link ID                 : %s\n", evs->linkID);
-        // printf("========================================================================\n");
+
 
     }
         

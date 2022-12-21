@@ -8,8 +8,8 @@
 #include <netinet/in.h>
 
     
-#define MYIPADDR    "165.246.240.47"
-#define MYEGOPORT   8909
+#define MYIPADDR    "127.0.0.1"
+#define MYEGOPORT   7505
 #define MAXLINE     2400 
 
 #pragma pack(push, 1) //to read packet correctly
@@ -99,66 +99,37 @@ int main() {
         // printf("\n");
         
         //data fitting
-        oi = (struct ego_vehicle_status*) buffer;
+        oi = (struct objectInfo*) buffer;
 
         //setting trailer
         oi->zeroD = buffer[oi->data_length + 30];
         oi->zeroA = buffer[oi->data_length + 31];
 
+        int objcnt = 0;
+
         printf("[Receiving from Morai..]\n");
         // // printf("sharp                   : %c\n", evs->sharp);
         // // printf("MaraiInfo               : %s\n", evs->MaraiInfo);
         // // printf("doller                  : %c\n", evs->dollor);
-        printf("data_length             : %d\n", oi->data_length);
+        // // printf("data_length             : %d\n", oi->data_length);
 
-        printf("  object ID        Type          posXYZ        heading       sizeXYZ        velXYZ\n");
-        printf("----------------------------------------------------------------------------------\n");
-        for(int i = 0; i < oi->data_length; i++){
-            printf("  %6d", oi->data[i].objId);
+        printf(" object ID    Type          posXYZ               heading         sizeXYZ                 velXYZ\n");
+        printf("---------------------------------------------------------------------------------------------------------\n");
+
+        for(int i = 0; i < oi->data_length / 106; ++i){
+            if(oi->data[i].objId != 0) ++objcnt;
+            else break;
+            printf("   %6d", oi->data[i].objId);
             printf("  %6d", oi->data[i].objType);
-            printf("  (%4.2f, %4.2f, %4.2f)", oi->data[i].posX, oi->data[i].posY, oi->data[i].posZ);
-            printf("   %3.2f", oi->data[i].heading);
-            printf("  (%3.2f, %3.2f, %3.2f)", oi->data[i].velocityX, oi->data[i].velocityY, oi->data[i].velocityZ);
-            printf("  (%3.2f, %3.2f, %3.2f)", oi->data[i].sizeX, oi->data[i].sizeY, oi->data[i].sizeZ);
+            printf("  (%7.2f, %7.2f, %7.2f)", oi->data[i].posX, oi->data[i].posY, oi->data[i].posZ);
+            printf("   %+6.2f", (oi->data[i].heading));
+            printf("  (%5.2f, %5.2f, %5.2f)", oi->data[i].sizeX, oi->data[i].sizeY, oi->data[i].sizeZ);
+            printf("  (%6.2f, %6.2f, %6.2f)", oi->data[i].velocityX, oi->data[i].velocityY, oi->data[i].velocityZ);
+            printf("\n");
         }
-        printf("==================================================================================\n");
-
-
-        // printf("ctrl_mode (제어모드)    : %s\n", (evs->ctrl_mode == 2) ? "auto (오토)" : "keyboard (키보드제어)");
-        // printf("gear (기어)             : ");
-        // switch (evs->gear) {
-        // case(0):
-        //     printf("M \n");
-        //     break;
-        // case(1):
-        //     printf("P (Parking, 주차)\n");
-        //     break;
-        // case(2):
-        //     printf("R (Reverse, 후진)\n");
-        //     break;
-        // case(3):
-        //     printf("N (Neutral, 중립)\n");
-        //     break;
-        // case(4):
-        //     printf("D (Drive, 주행)\n");
-        //     break;
-        // case(5):
-        //     printf("L (Low, 저속)\n");
-        //     break;
-        // }
-        
-        // printf("speed (속력)            : %.2fm/s\n", evs->signed_velocity);
-        // printf("Accel (가속페달)        : %.2f\n", evs->accel);
-        // printf("Brake (브레이크페달)    : %.2f\n", evs->brake);
-        // printf("steer (조향입력)        : %.2f\n\n", evs->steer);
-        
-        // printf("Position XYZ            : %5.2fm, \t%5.2fm, \t%5.2fm \n", evs->posX, evs->posY, evs->posZ);
-        // printf("Roll Pitch Yaw          : %5.2fdeg, \t%5.2fdeg, \t%5.2fdeg \n", evs->roll, evs->pitch, evs->yaw);
-        // printf("Velocity XYZ            : %5.2fkm/h, \t%5.2fkm/h, \t%5.2fkm/h \n", evs->velocityX, evs->velocityY, evs->velocityZ);
-        // printf("Acceleration XYZ        : %5.2fm/s^2, \t%5.2fm/s^2, \t%5.2fm/s^2 \n", evs->accelX, evs->accelY, evs->accelZ);
-        // printf("map_data_id             : %d\n", evs->map_data_id);
-        // printf("link ID                 : %s\n", evs->linkID);
-
+        printf("---------------------------------------------------------------------------------------------------------\n");
+        printf("                                                                                     num of objects : %2d\n", objcnt);
+        printf("=========================================================================================================\n");
 
     }
         

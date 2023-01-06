@@ -52,6 +52,10 @@ struct objectInfo{
 };
 #pragma pack(pop)
 
+inline float headingBaseE2N(float headingE){
+    return (headingE > 90) ? headingE - 270 : headingE + 90;
+}
+
 // Driver code 
 int main() { 
     int sockfd; 

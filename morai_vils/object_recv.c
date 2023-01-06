@@ -14,7 +14,7 @@
 
 #pragma pack(push, 1) //to read packet correctly
 
-struct objInfo_data{
+struct objectInfo_data{
     uint16_t objId;
     short objType;
     float posX;
@@ -45,7 +45,7 @@ struct objectInfo{
     char aux_data[12];
 
     //data
-    struct objInfo_data data[20];
+    struct objectInfo_data data[20];
 
     char zeroD;
     char zeroA;

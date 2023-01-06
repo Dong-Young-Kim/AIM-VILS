@@ -8,10 +8,15 @@
 #include <netinet/in.h>
 #include <time.h>
 
-#define SIMIPADDR   "165.246.170.87"    //시뮬레이터 구동 pc ip 주소
-#define SIMCMDPORT  9091                //시뮬레이터 cmd host port
 #define MYIPADDR    "165.246.240.47"    //나의 ip
+#define SIMIPADDR   "165.246.170.87"    //시뮬레이터 구동 pc ip 주소
+
 #define MYEGOPORT   16456               //제어 메세지를 받는 나의 port 번호
+#define SIMCMDPORT  9091                //시뮬레이터 cmd host port
+
+
+
+
 #define BUFSIZE     256
 
 #pragma pack(push, 1) //to read packet correctly
@@ -44,6 +49,85 @@ struct ego_vehicle_cmd{
     float accelerator;
     float brake;
     float steering;
+
+    char zeroD;
+    char zeroA;
+};
+
+struct ego_vehicle_status{
+
+    char sharp;
+    char MaraiInfo[9];
+    char dollor;
+    unsigned int data_length;
+    char aux_data[12];
+
+    //data
+    char ctrl_mode;
+    char gear;
+    float signed_velocity;
+    unsigned int map_data_id;
+    float accel;
+    float brake;
+    float sizeX;
+    float sizeY;
+    float sizeZ;
+    float overhang;
+    float wheelbase;
+    float rear_overhang;
+
+
+    //data
+    float posX;
+    float posY;
+    float posZ;
+    float roll;
+    float pitch;
+    float yaw;
+    float velocityX;
+    float velocityY;
+    float velocityZ;
+    float accelX;
+    float accelY;
+    float accelZ;
+    float steer;
+    char linkID[38];
+
+    char zeroD;
+    char zeroA;
+};
+
+struct objectInfo_data{
+    uint16_t objId;
+    short objType;
+    float posX;
+    float posY;
+    float posZ;
+    float heading;
+    float sizeX;
+    float sizeY;
+    float sizeZ;
+    float overhang;
+    float wheelbase;
+    float rear_overhang;
+    float velocityX;
+    float velocityY;
+    float velocityZ;
+    float accelX;
+    float accelY;
+    float accelZ;
+    char linkID[38];
+};
+struct objectInfo{
+
+    char sharp;
+    char MoraiObjInfo[12];
+    char dollor;
+    unsigned int data_length;
+    char aux_data[12];
+
+    //data
+    struct objectInfo_data data[20];
 
     char zeroD;
     char zeroA;

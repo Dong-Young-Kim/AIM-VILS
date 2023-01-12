@@ -78,6 +78,7 @@ namespace mdpar {
                 recvLen = recvfrom(sockfd, (char *)buffer, BUFSIZE,  
                         MSG_WAITALL, ( struct sockaddr *) &cliaddr, 
                         &slen);
+                parseData();
             }
 
             void printBuffer(){

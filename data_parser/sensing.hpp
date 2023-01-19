@@ -56,18 +56,20 @@ public:
     }
 
     void senseVehicleStatus(ego_vehicle_status *evs){
-        evs->posX       = this->vehicle.posX;
-        evs->posY       = this->vehicle.posY;
-        evs->posZ       = this->vehicle.posZ;
-        evs->roll       = this->vehicle.roll;
-        evs->pitch      = this->vehicle.pitch;
-        evs->yaw        = this->vehicle.yaw;
-        evs->yaw        = this->vehicle.yaw;
-        evs->ctrl_mode  = this->vehicle.mode;
-        evs->gear       = this->vehicle.gear;
-        evs->signed_velocity = this->vehicle.speed;
-        evs->brake      = this->vehicle.brake;
-        evs->steer      = this->vehicle.steer;
+
+        this->vehicle.posX      = evs->posX;
+        this->vehicle.posY      = evs->posY;
+        this->vehicle.posZ      = evs->posZ;
+        this->vehicle.roll      = evs->roll;
+        this->vehicle.pitch     = evs->pitch;
+        this->vehicle.yaw       = evs->yaw;
+        this->vehicle.yaw       = evs->yaw;
+        this->vehicle.mode      = evs->ctrl_mode;
+        this->vehicle.gear      = evs->gear;
+        this->vehicle.speed     = evs->signed_velocity;
+        this->vehicle.brake     = evs->brake;
+        this->vehicle.steer     = evs->steer;
+
     }
         
     void senseObject(objectInfo *oi){

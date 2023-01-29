@@ -72,7 +72,8 @@ public:
     }
         
     void senseObject(objectInfo *oi){
-
+        
+        objNum = 0;
         for(int i = 0; ; ++i){
             if(oi->data[i].objId != 0) ++objNum;
             else break;

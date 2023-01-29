@@ -6,7 +6,6 @@
 int main(){
     mdpar::EgoStatusParser rd(8909);
     mdpar::ObjectParser od(7505);
-    mdpar::UdpParser ud(9595);
     
     while(1){
         rd.recv();
@@ -21,20 +20,20 @@ int main(){
 
         //ud.printBuffer();
 
-        {
-            //[1] object에 대해서만 좌표 변환을 진행
-            float yaw = rd.data->yaw;
-            float transObjCoorX = od.data->data[0].posX - rd.data->posX;
-            float transObjCoorY = od.data->data[0].posY - rd.data->posY;
-            float transObjCoorZ = od.data->data[0].posZ - rd.data->posZ;
+        // {
+        //     //[1] object에 대해서만 좌표 변환을 진행
+        //     float yaw = rd.data->yaw;
+        //     float transObjCoorX = od.data->data[0].posX - rd.data->posX;
+        //     float transObjCoorY = od.data->data[0].posY - rd.data->posY;
+        //     float transObjCoorZ = od.data->data[0].posZ - rd.data->posZ;
 
-            float rotObjCoorX = cos(yaw * M_PI / 180) * transObjCoorX +  sin(yaw * M_PI / 180) * transObjCoorY;
-            float rotObjCoorY =  -sin(yaw * M_PI / 180) * transObjCoorX +  cos(yaw * M_PI / 180) * transObjCoorY;
+        //     float rotObjCoorX = cos(yaw * M_PI / 180) * transObjCoorX +  sin(yaw * M_PI / 180) * transObjCoorY;
+        //     float rotObjCoorY =  -sin(yaw * M_PI / 180) * transObjCoorX +  cos(yaw * M_PI / 180) * transObjCoorY;
 
-            printf("%f %f \n", cos(yaw * M_PI / 180), sin(yaw * M_PI / 180));
+        //     printf("%f %f \n", cos(yaw * M_PI / 180), sin(yaw * M_PI / 180));
 
-            printf("%f, %f, %f\n", rotObjCoorX, rotObjCoorY, transObjCoorZ);
-        }
+        //     printf("%f, %f, %f\n", rotObjCoorX, rotObjCoorY, transObjCoorZ);
+        // }
 
     }
 }

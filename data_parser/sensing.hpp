@@ -1,45 +1,44 @@
 # pragma once
 #include <math.h>
 
-#include "msg_struct.h"
 #include "data_parser.hpp"
 
 struct objInfo {
-    short classes;
-    unsigned int idx;
-    float posX;
-    float posY;
-    float posZ;
-    float sizeX;
-    float sizeY;
-    float sizeZ;
-    float velX;
-    float velY;
-    float velZ;
-    float heading;
+    short           classes;
+    unsigned int    idx;
+    float           posX;
+    float           posY;
+    float           posZ;
+    float           sizeX;
+    float           sizeY;
+    float           sizeZ;
+    float           velX;
+    float           velY;
+    float           velZ;
+    float           heading;
 };
 
 struct vehInfo{
-    float posX;
-    float posY;
-    float posZ;
-    float roll;
-    float pitch;
-    float yaw;
+    float           posX;
+    float           posY;
+    float           posZ;
+    float           roll;
+    float           pitch;
+    float           yaw;
     
-    char mode;
-    char gear;
-    float speed;
-    float brake;
-    float steer;
+    char            mode;
+    char            gear;
+    float           speed;
+    float           brake;
+    float           steer;
     
 };
 
 struct localInfo{
-    double timestamp;
-    double longtitude;
-    double latitude;
-    double altitude;
+    double          timestamp;
+    double          longtitude;
+    double          latitude;
+    double          altitude;
 
 };
 
@@ -52,7 +51,7 @@ public:
     void run(ego_vehicle_status *evs, objectInfo *oi){
         senseVehicleStatus(evs);
         senseObject(oi);
-        senseLocal();
+        senseLocal(evs);
     }
 
     void senseVehicleStatus(ego_vehicle_status *evs){
@@ -74,19 +73,32 @@ public:
         
     void senseObject(objectInfo *oi){
 
-        for(int i = 0; ; i++){
-            this->objs[i].classes = oi->data[i].objType;
+        for(int i = 0; ; ++i){
+            if(oi->data[i].objId != 0) ++objNum;
+            else break;
+            this->objs[i].classes   = oi->data[i].objType;
+            this->objs[i].idx       = oi->data[i].objId;
+            this->objs[i].posX      = oi->data[i].posX;
+            this->objs[i].posY      = oi->data[i].posY;
+            this->objs[i].posZ      = oi->data[i].posZ;
+            this->objs[i].sizeX     = oi->data[i].sizeX;
+            this->objs[i].sizeY     = oi->data[i].sizeY;
+            this->objs[i].sizeZ     = oi->data[i].sizeZ;
+            this->objs[i].velX      = oi->data[i].velocityX;
+            this->objs[i].velY      = oi->data[i].velocityY;
+            this->objs[i].velZ      = oi->data[i].velocityZ;
+            this->objs[i].heading   = oi->data[i].heading;
 
-            if(oi->data->objId == 0){
-                
-            }
         }
 
         convertObj2VehCoor(true);
     }
 
-    void senseLocal(){
-        
+    void senseLocal(ego_vehicle_status *evs){
+        this->maplocal.longtitude   = evs->posX;
+        this->maplocal.latitude     = evs->posY;
+        this->maplocal.altitude     = evs->posZ;
+        this->maplocal.timestamp    = 0;
     }
 
     inline float convertHeadingE2NCW(float headingE){
@@ -115,5 +127,6 @@ private:
     struct vehInfo vehicle;
     short objNum;
     struct objInfo objs[20];
+    struct localInfo maplocal;
 
 };

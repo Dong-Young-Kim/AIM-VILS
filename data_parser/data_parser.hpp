@@ -9,7 +9,7 @@
 #include <arpa/inet.h> 
 #include <netinet/in.h>
 
-#include "msg_struct.h"
+#include "morai_udp_msg.h"
 
 #define BUFSIZE     4096
 

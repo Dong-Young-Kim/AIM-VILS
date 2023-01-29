@@ -1,4 +1,5 @@
-#include <stdlib.h>
+#ifndef MORAI_UDP_MSG_H
+#define MORAI_UDP_MSG_H
 
 #pragma pack(push, 1) //to read packet correctly
 struct ctrl_msg{
@@ -79,7 +80,7 @@ struct ego_vehicle_status{
 };
 
 struct objectInfo_data{
-    uint16_t objId;
+    unsigned int objId;
     short objType;
     float posX;
     float posY;
@@ -114,3 +115,5 @@ struct objectInfo{
     char zeroA;
 };
 #pragma pack(pop)
+
+#endif

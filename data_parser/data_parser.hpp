@@ -177,7 +177,7 @@ namespace mdpar {
             for(int i = 0; i < this->data->data_length / 106; ++i){
                 if(this->data->data[i].objId != 0) ++objcnt;
                 else break;
-                printf("   %6d", this->data->data[i].objId);
+                printf("   %6u", this->data->data[i].objId);
                 printf("  %6d", this->data->data[i].objType);
                 printf("  (%7.2f, %7.2f, %7.2f)", this->data->data[i].posX, this->data->data[i].posY, this->data->data[i].posZ);
                 printf("   %+6.2f", (this->data->data[i].heading));

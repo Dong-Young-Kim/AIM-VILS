@@ -138,7 +138,7 @@ namespace mdpar {
                 break;
             }
             
-            printf("speed (속력)            : %.2fm/s\n", this->data->signed_velocity);
+            printf("speed (속력)            : %.2fkm/h\n", this->data->signed_velocity);
             printf("Accel (가속페달)        : %.2f\n", this->data->accel);
             printf("Brake (브레이크페달)    : %.2f\n", this->data->brake);
             printf("steer (조향입력)        : %.2f\n\n", this->data->steer);

@@ -85,8 +85,8 @@ namespace mdpar {
                 DumpHex(buffer, recvLen);
             }
 
-            void parseData(){};
-            void printData(){};
+            virtual void parseData(){};
+            virtual void printData(){};
             
 
             int recvLen;
@@ -110,10 +110,10 @@ namespace mdpar {
 
         void printData(){
             printf("[Receiving from Morai..]\n");
-            // printf("sharp                   : %c\n", evs->sharp);
-            // printf("MaraiInfo               : %s\n", evs->MaraiInfo);
-            // printf("doller                  : %c\n", evs->dollor);
-            // printf("data_length             : %d\n", evs->data_length);
+            // printf("sharp                   : %c\n", this->data->sharp);
+            // printf("MaraiInfo               : %s\n", this->data->MaraiInfo);
+            // printf("doller                  : %c\n", this->data->dollor);
+            // printf("data_length             : %d\n", this->data->data_length);
 
             printf("ctrl_mode (제어모드)    : %s\n", (this->data->ctrl_mode == 2) ? "auto (오토)" : "keyboard (키보드제어)");
             printf("gear (기어)             : ");
@@ -171,11 +171,6 @@ namespace mdpar {
             objcnt = 0;
 
             printf("[Receiving from Morai..]\n");
-            // // printf("sharp                   : %c\n", evs->sharp);
-            // // printf("MaraiInfo               : %s\n", evs->MaraiInfo);
-            // // printf("doller                  : %c\n", evs->dollor);
-            // // printf("data_length             : %d\n", oi->data_length);
-
             printf(" object ID    Type          posXYZ               heading         sizeXYZ                 velXYZ\n");
             printf("---------------------------------------------------------------------------------------------------------\n");
 

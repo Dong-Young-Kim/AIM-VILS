@@ -10,8 +10,9 @@ int main(){
     while(1){
         rd.recv();
         od.recv();
-        //ud.recv();
 
+        // rd.parseData();
+        // od.parseData();
 
         // rd.printBuffer();
         rd.printData();

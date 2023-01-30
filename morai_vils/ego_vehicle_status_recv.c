@@ -133,7 +133,7 @@ int main() {
             break;
         }
         
-        printf("speed (속력)            : %.2fm/s\n", evs->signed_velocity);
+        printf("speed (속력)            : %.2fkm/h\n", evs->signed_velocity);
         printf("Accel (가속페달)        : %.2f\n", evs->accel);
         printf("Brake (브레이크페달)    : %.2f\n", evs->brake);
         printf("steer (조향입력)        : %.2f\n\n", evs->steer);

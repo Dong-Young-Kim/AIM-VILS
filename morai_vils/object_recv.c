@@ -123,7 +123,7 @@ int main() {
         for(int i = 0; i < oi->data_length / 106; ++i){
             if(oi->data[i].objId != 0) ++objcnt;
             else break;
-            printf("   %6d", oi->data[i].objId);
+            printf("   %6u", oi->data[i].objId);
             printf("  %6d", oi->data[i].objType);
             printf("  (%7.2f, %7.2f, %7.2f)", oi->data[i].posX, oi->data[i].posY, oi->data[i].posZ);
             printf("   %+6.2f", (oi->data[i].heading));
